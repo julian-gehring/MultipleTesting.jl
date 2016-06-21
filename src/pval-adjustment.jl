@@ -4,6 +4,7 @@ type Bonferroni <: PValueAdjustmentMethod
 end
 
 adjust(pvals, method::Bonferroni) = bonferroni(pvals)
+adjust{T}(pvals::Vector{T}, ws::MultipleTestingWeights{T}, method::Bonferroni) = bonferroni(pvals./ws)
 
 function bonferroni{T<:AbstractFloat}(pValues::Vector{T})
     validPValues(pValues)
@@ -14,6 +15,7 @@ type BenjaminiHochberg <: PValueAdjustmentMethod
 end
 
 adjust(pvals, method::BenjaminiHochberg) = benjamini_hochberg(pvals)
+adjust{T}(pvals::Vector{T}, ws::MultipleTestingWeights{T}, method::BenjaminiHochberg) = benjamini_hochberg(pvals./ws)
 
 function benjamini_hochberg{T<:AbstractFloat}(pValues::Vector{T})
     validPValues(pValues)
@@ -41,6 +43,11 @@ BenjaminiHochbergAdaptive() = BenjaminiHochbergAdaptive(1.0)
 function adjust(pvals, method::BenjaminiHochbergAdaptive)
   π0 = estimate_pi0(pvals, method.pi0estimator)
   benjamini_hochberg(pvals, π0)
+end
+
+function adjust{T}(pvals::Vector{T}, ws::MultipleTestingWeights{T}, ::BenjaminiHochbergAdaptive)
+  π0 = estimate_pi0(pvals, ws, method.pi0estimator)
+  benjamini_hochberg(pvals, ws, π0)
 end
 
 function benjamini_hochberg{T<:AbstractFloat}(pValues::Vector{T}, pi0::T)

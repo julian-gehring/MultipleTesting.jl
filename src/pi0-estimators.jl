@@ -34,6 +34,10 @@ function estimate_pi0{T<:AbstractFloat}(pValues::Vector{T}, pi0estimator::Storey
     storey_pi0(pValues, pi0estimator.λ)
 end
 
+function estimate_pi0{T<:AbstractFloat}(pValues::Vector{T}, ws::MultipleTestingWeights{T}, pi0estimator::Storey)
+    storey_pi0(pValues./ws, pi0estimator.λ)
+end
+
 function storey_pi0{T<:AbstractFloat}(pValues::Vector{T}, lambda::T)
     validPValues(pValues)
     pi0 = (sum(pValues .>= lambda) / length(pValues)) / (1.-lambda)

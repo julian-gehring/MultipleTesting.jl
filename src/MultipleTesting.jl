@@ -10,6 +10,7 @@ module MultipleTesting
 
 using StatsBase
 import StatsBase: fit
+import Base: ./
 
 using Distributions
 
@@ -57,9 +58,11 @@ export
     FlatGrenander,
     isin,
     fit,
-    BetaUniformMixtureModel
+    BetaUniformMixtureModel,
+    MultipleTestingWeights
 
 include("types.jl")
+include("weights.jl")
 include("utils.jl")
 include("pval-adjustment.jl")
 include("pi0-estimators.jl")
