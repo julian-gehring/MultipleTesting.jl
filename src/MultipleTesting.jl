@@ -68,5 +68,6 @@ include("pval-adjustment.jl")
 include("pi0-estimators.jl")
 include("qvalue.jl")
 include("model.jl")
+include("simulations.jl")
 
 end
