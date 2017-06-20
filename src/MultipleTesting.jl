@@ -11,7 +11,7 @@ module MultipleTesting
 using Compat
 
 using StatsBase
-import StatsBase: fit
+import StatsBase: fit, predict
 
 using Distributions
 
@@ -55,13 +55,23 @@ export
     TippettCombination,
     SimesCombination,
     WilkinsonCombination,
-    MinimumCombination
+    MinimumCombination,
+    PriorityWeights,
+    WeightedPValues,
+    IsotonicRegression,
+    Pi0RegressionEstimator,
+    Pi0RegressionFit,
+    BocaLeek,
+    BocaLeekFit
 
 
 include("types.jl")
+include("shape-constrained.jl")
+include("weights.jl")
 include("utils.jl")
 include("pval-adjustment.jl")
 include("pi0-estimators.jl")
+include("pi0-regression.jl")
 include("qvalue.jl")
 include("model.jl")
 include("combinations.jl")

@@ -4,6 +4,10 @@
 
 @compat abstract type Pi0Fit end
 
+@compat abstract type Pi0RegressionEstimator end
+
+@compat abstract type Pi0RegressionFit end
+
 @compat abstract type PValueAdjustment end
 
 @compat abstract type PValueCombination end
@@ -13,7 +17,9 @@
 
 ## PValues
 
-immutable PValues{T<:AbstractFloat} <: AbstractVector{T}
+@compat abstract type GeneralizedPValues{T<:AbstractFloat} <:AbstractVector{T} end
+
+immutable PValues{T<:AbstractFloat} <: GeneralizedPValues{T}
     values::AbstractVector{T}
     min::T
     max::T

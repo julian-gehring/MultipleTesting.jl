@@ -2,7 +2,7 @@
 
 combine{T<:AbstractFloat, M<:PValueCombination}(pValues::AbstractVector{T}, method::M) = combine(PValues(pValues), method)
 
-combine{T<:AbstractFloat, M<:PValueCombination}(pValues::AbstractVector{T}, weights::WeightVec, method::M) = combine(PValues(pValues), weights, method)
+combine{T<:AbstractFloat, M<:PValueCombination}(pValues::AbstractVector{T}, weights::PriorityWeights, method::M) = combine(PValues(pValues), weights, method)
 
 combine{T<:AbstractFloat, R<:Real, M<:PValueCombination}(pValues::AbstractVector{T}, weights::AbstractVector{R}, method::M) = combine(PValues(pValues), weights, method)
 
@@ -68,7 +68,7 @@ function combine{T<:AbstractFloat}(pValues::PValues{T}, weights::Vector{T}, meth
     stouffer_combination(pValues, weights)
 end
 
-function combine{T<:AbstractFloat}(pValues::PValues{T}, weights::WeightVec, method::StoufferCombination)
+function combine{T<:AbstractFloat}(pValues::PValues{T}, weights::PriorityWeights, method::StoufferCombination)
     stouffer_combination(pValues, values(weights))
 end
 

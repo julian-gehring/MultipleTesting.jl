@@ -12,11 +12,15 @@ adjust{T<:AbstractFloat, M<:PValueAdjustment}(pvals::Vector{T}, n::Integer, meth
 immutable Bonferroni <: PValueAdjustment
 end
 
-adjust(pvals::PValues, method::Bonferroni) = adjust(pvals, length(pvals), method)
+adjust{P<:GeneralizedPValues}(pvals::P, method::Bonferroni) = adjust(pvals, length(pvals), method)
 
-adjust(pvals::PValues, n::Integer, method::Bonferroni) = bonferroni(pvals, n)
+adjust{P<:GeneralizedPValues}(pvals::P, n::Integer, method::Bonferroni) = bonferroni(pvals, n)
 
-function bonferroni(pValues::PValues, n::Integer)
+function adjust(pvals::PValues, weights::PriorityWeights, method::Bonferroni)
+    adjust( WeightedPValues(pvals, weights), method)
+end
+
+function bonferroni{P<:GeneralizedPValues}(pValues::P, n::Integer)
     k = length(pValues)
     check_number_tests(k, n)
     return min.(pValues * n, 1)
@@ -28,11 +32,15 @@ end
 immutable BenjaminiHochberg <: PValueAdjustment
 end
 
-adjust(pvals::PValues, method::BenjaminiHochberg) = adjust(pvals, length(pvals), method)
+adjust{P<:GeneralizedPValues}(pvals::P, method::BenjaminiHochberg) = adjust(pvals, length(pvals), method)
 
-adjust(pvals::PValues, n::Integer, method::BenjaminiHochberg) = benjamini_hochberg(pvals, n)
+adjust{P<:GeneralizedPValues}(pvals::P, n::Integer, method::BenjaminiHochberg) = benjamini_hochberg(pvals, n)
 
-function benjamini_hochberg(pValues::PValues, n::Integer)
+function adjust(pvals::PValues, weights::PriorityWeights, method::BenjaminiHochberg)
+    adjust( WeightedPValues(pvals, weights), method)
+end
+
+function benjamini_hochberg{P<:GeneralizedPValues}(pValues::P, n::Integer)
     k = length(pValues)
     check_number_tests(k, n)
     if k <= 1
